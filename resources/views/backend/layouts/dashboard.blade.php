@@ -1,4 +1,3 @@
-
 @extends('backend.layouts.app')
 @section('content')
 <div class="content-wrapper">
@@ -112,7 +111,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-8">
-                 welcome to {{auth()->user()->role}}-Espace
+                 welcome to  {{auth()->user()->role}}-Espace
               <!-- /.card-footer -->
             </div>
             <!-- /.card -->

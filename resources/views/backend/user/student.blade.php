@@ -25,7 +25,18 @@
                   </tr>
                   </thead>
                   <tbody>
-                 
+                    @foreach ($all as $key=>$row)
+                    @if ($row->role == "Etudiant")      
+                    <tr>
+                      <td>{{ $key+1 }}</td>
+                      <td>{{ $row->name }}</td>
+                      <td>{{ $row->email }}</td>
+                      <td>{{ $row->role }}</td>
+                      
+                     
+                    </tr>   
+                    @endif
+                    @endforeach 
                
                  
                   
