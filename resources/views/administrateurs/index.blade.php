@@ -7,7 +7,7 @@
             <h1>Liste des administrateurs</h1>
             <a href="{{ route('administrateurs.create') }}" class="btn btn-success">Ajouter un administrateur</a>
 
-            <table id="administrateurs-table" class="table">
+            <table id="example1" class="table">
                 <thead>
                     <tr>
                         <th>Nom</th>
