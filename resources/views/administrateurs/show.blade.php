@@ -1,6 +1,5 @@
-@include('layouts.index')
-@include('layouts.sidbar')
-@include('layouts.navbar')
+@extends('backend.layouts.app')
+@section('content')
 
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
@@ -33,4 +32,4 @@
         <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet administrateur ?')">Supprimer</button>
     </form>
 </div>
-@include('layouts.footer')       
+@endsection      

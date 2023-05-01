@@ -1,6 +1,5 @@
-@include('layouts.index')
-@include('layouts.sidbar')
-@include('layouts.navbar')
+@extends('backend.layouts.app')
+@section('content')
 
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
@@ -29,4 +28,4 @@
         <button type="submit" class="btn btn-primary">Enregistrer</button>
     </form>
 </div>
-@include('layouts.footer')       
+@endsection     

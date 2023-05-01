@@ -20,6 +20,7 @@
             <div>
                 <a href="/1" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
             </div>
+            @if (auth()->user()->role == 'Admin')
             <div>
                 <a href="{{ route('administrateurs.index') }}" class="nav-item nav-link"><i
                         class="fa fa-th me-2"></i>Administrateur</a>
@@ -42,6 +43,7 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST"> @csrf</form>
 
             </div>
+            @endif
         </div>
     </nav>
 </div>
