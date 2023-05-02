@@ -1,9 +1,11 @@
 <?php
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Filiere;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -22,13 +24,28 @@ class UserController extends Controller
     // Enregistrer un nouveau professeur dans la base de données
     public function storeProfesseur(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'specialite' => 'required',
+            'photo' => 'required|image|mimes:jpg,png,gif'
+        ]);
+
         $professeur = new User();
         $professeur->name = $request->input('name');
         $professeur->email = $request->input('email');
-        $professeur->password = bcrypt($request->input('password'));
+        $professeur->password = Hash::make($request->input('password'));
         $professeur->specialite = $request->input('specialite');
-        $professeur->photo = $request->input('photo');
         $professeur->role = 'professeur';
+
+        // enregistrement de la photo
+        $image = $request->file('photo');
+        $destinationPath = './image';
+        $profilImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+        $image->move($destinationPath, $profilImage);
+        $professeur->photo = $profilImage;
+
         $professeur->save();
         return redirect()->route('professeurs.index');
     }
@@ -47,110 +64,164 @@ class UserController extends Controller
         return view('professeurs.edit', ['professeur' => $professeur]);
     }
 
+
     // Mettre à jour les informations d'un professeur spécifique dans la base de données
     public function updateProfesseur(Request $request, $id)
-    {
-        $professeur = User::where('role', 'professeur')->find($id);
-        $professeur->nom = $request->input('name');
-        $professeur->email = $request->input('email');
-        if(!empty($request->input('password'))) {
-            $professeur->password = bcrypt($request->input('password'));
-        }
-        $professeur->photo= $request->input('photo');
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:users,email,' . $id,
+        'password' => 'nullable|min:8',
+        'specialite' => 'required',
+        'photo' => 'nullable|image|mimes:jpg,png,gif'
+    ]);
 
-        $professeur->save();
-        return redirect()->route('professeurs.show', ['professeur' => $professeur->id]);
+    $professeur = User::where('role', 'professeur')->find($id);
+    $professeur->name = $request->input('name');
+    $professeur->email = $request->input('email');
+    if (!empty($request->input('password'))) {
+        $professeur->password = Hash::make($request->input('password'));
     }
+    $professeur->specialite = $request->input('specialite');
+
+    // mise à jour de la photo
+    if ($request->hasFile('photo')) {
+        $image = $request->file('photo');
+        $destinationPath = './image';
+        $profilImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+        $image->move($destinationPath, $profilImage);
+        Storage::delete($destinationPath . '/' . $professeur->photo); // supprimer l'ancienne photo
+        $professeur->photo = $profilImage;
+    }
+
+    $professeur->save();
+    return redirect()->route('professeurs.show', ['id' => $professeur->id]);
+}
 
     // Supprimer un professeur spécifique de la base de données
-    public function destroyProfesseur($id)
-    {
-        $professeur = User::where('role', 'professeur')->find($id);
-        $professeur->delete();
-        return redirect()->route('professeurs.index');
-    }
-    public function indexEtudiant()
-    {
-        $etudiants = User::where('role', 'etudiant')->get();
-        return view('etudiants.index', ['etudiants' => $etudiants]);
-    }
-
-    // Afficher le formulaire de création d'un nouveau étudiant
-    public function createEtudiant()
-    {
-        $filieres = Filiere::all();
-        return view('etudiants.create')->with('filieres', $filieres);
-    }
-
-    // Enregistrer un nouveau étudiant dans la base de données
-    public function storeEtudiant(Request $request)
-    {
-        $etudiant = new User();
-        $etudiant->name = $request->input('name');
-        $etudiant->email = $request->input('email');
-        $etudiant->password = bcrypt($request->input('password'));
-        $etudiant->role = 'etudiant';
-        $etudiant->CNE = $request->input('CNE');
-        $etudiant->date_de_naissance = $request->input('date_de_naissance');
-        $etudiant->filiere_id = $request->input('filiere_id');
-        
-        if ($request->hasFile('photo')) {
-            $photo = $request->file('photo');
-            $filename = $photo->store('uploads/etudiants');
-            $etudiant->photo = $filename;
+      // Supprimer un professeur spécifique de la base de données    // Supprimer un professeur spécifique de la base de données
+        // Supprimer un professeur spécifique de la base de données
+        public function destroyProfesseur($id)
+        {
+            $professeur = User::where('role', 'professeur')->find($id);
+            Storage::delete($professeur->photo);
+            $professeur->delete();
+            return redirect()->route('professeurs.index');
         }
-        
-        $etudiant->save();
-        return redirect()->route('etudiants.index');
-    }
     
+        // Afficher la liste des étudiants inscrits dans une filière spécifique
+        public function indexEtudiant()
+        {
+            $etudiants = User::where('role', 'etudiant')->get();
+            return view('etudiants.index', ['etudiants' => $etudiants]);
+        }
+    
+    
+        // Afficher le formulaire de création d'un nouvel étudiant
+        public function createEtudiant()
+        {
+            $filieres = Filiere::all();
+            return view('etudiants.create', ['filieres' => $filieres]);
+        }
+    
+        // Enregistrer un nouvel étudiant dans la base de données
+        public function storeEtudiant(Request $request)
+        {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:8',
+                'filiere_id' => 'required',
+                'photo' => 'required|image|mimes:jpg,png,gif'
+            ]);
+    
+            $etudiant = new User();
+            $etudiant->name = $request->input('name');
+            $etudiant->email = $request->input('email');
+            $etudiant->password = Hash::make($request->input('password'));
+            $etudiant->role = 'etudiant';
+            $etudiant->filiere_id = $request->input('filiere_id');
+    
+            // enregistrement de la photo
+            $image = $request->file('photo');
+            $destinationPath = './image';
+            $profilImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profilImage);
+            $etudiant->photo = $profilImage;
+    
+            $etudiant->save();
+            return redirect()->route('etudiants.index');
+        }
+    
+        // Afficher les détails d'un étudiant spécifique
+        public function showEtudiant($id)
+        {
+            $etudiant = User::where('role', 'etudiant')->find($id);
+            return view('etudiants.show', ['etudiant' => $etudiant]);
+        }
+    
+        // Afficher le formulaire de modification d'un étudiant spécifique
+        public function editEtudiant($id)
+        {
+            $etudiant = User::where('role', 'etudiant')->find($id);
+            $filieres = Filiere::all();
+            return view('etudiants.edit', ['etudiant' => $etudiant, 'filieres' => $filieres]);
+        }
+    // Mettre à jour les informations d'un étudiant spécifique dans la base de données
     public function updateEtudiant(Request $request, $id)
     {
-        $etudiant = User::where('role', 'etudiant')->find($id);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:8',
+            'filiere_id' => 'required',
+            'photo' => 'nullable|image|mimes:jpg,png,gif'
+        ]);
+
+        $etudiant = User::find($id);
         $etudiant->name = $request->input('name');
         $etudiant->email = $request->input('email');
         if (!empty($request->input('password'))) {
-            $etudiant->password = bcrypt($request->input('password'));
+            $etudiant->password = Hash::make($request->input('password'));
         }
-        $etudiant->CNE = $request->input('CNE');
-        $etudiant->date_de_naissance = $request->input('date_de_naissance');
         $etudiant->filiere_id = $request->input('filiere_id');
-        
+
         if ($request->hasFile('photo')) {
-            $photo = $request->file('photo');
-            $filename = $photo->store('uploads/etudiants');
-            Storage::delete($etudiant->photo); // supprime l'ancien fichier
-            $etudiant->photo = $filename;
+            // supprimer l'ancienne photo
+            Storage::delete($etudiant->photo);
+
+            // enregistrement de la nouvelle photo
+            $image = $request->file('photo');
+            $destinationPath = './image';
+            $profilImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profilImage);
+            $etudiant->photo = $profilImage;
         }
-        
+
         $etudiant->save();
-        return redirect()->route('etudiants.show', ['etudiant' => $etudiant->id]);
+        return redirect()->route('etudiants.index');
     }
-    public function showEtudiant($id)
-    {
-        $etudiant = User::where('role', 'etudiant')->find($id);
-        return view('etudiants.show', ['etudiant' => $etudiant]);
-    }
-    
+
     // Supprimer un étudiant spécifique de la base de données
     public function destroyEtudiant($id)
     {
         $etudiant = User::where('role', 'etudiant')->find($id);
+        Storage::delete($etudiant->photo);
         $etudiant->delete();
         return redirect()->route('etudiants.index');
     }
     public function indexAdministrateur()
     {
-        $administrateurs = User::where('role', 'Admin')->get();
+        $administrateurs = User::where('role', 'administrateur')->get();
         return view('administrateurs.index', ['administrateurs' => $administrateurs]);
     }
-
+    
     // Afficher le formulaire de création d'un nouvel administrateur
     public function createAdministrateur()
     {
         return view('administrateurs.create');
     }
-
+    
     // Enregistrer un nouvel administrateur dans la base de données
     public function storeAdministrateur(Request $request)
     {
@@ -163,25 +234,25 @@ class UserController extends Controller
         $administrateur->save();
         return redirect()->route('administrateurs.index');
     }
-
+    
     // Afficher les détails d'un administrateur spécifique
     public function showAdministrateur($id)
     {
-        $administrateur = User::where('role', 'Admin')->find($id);
+        $administrateur = User::where('role', 'administrateur')->find($id);
         return view('administrateurs.show', ['administrateur' => $administrateur]);
     }
-
+    
     // Afficher le formulaire de modification d'un administrateur spécifique
     public function editAdministrateur($id)
     {
-        $administrateur = User::where('role', 'Admin')->find($id);
+        $administrateur = User::where('role', 'administrateur')->find($id);
         return view('administrateurs.edit', ['administrateur' => $administrateur]);
     }
-
+    
     // Mettre à jour les informations d'un administrateur spécifique dans la base de données
     public function updateAdministrateur(Request $request, $id)
     {
-        $administrateur = User::where('role', 'Admin')->find($id);
+        $administrateur = User::where('role', 'administrateur')->find($id);
         $administrateur->nom = $request->input('nom');
         $administrateur->email = $request->input('email');
         if(!empty($request->input('password'))) {
@@ -191,12 +262,12 @@ class UserController extends Controller
         $administrateur->save();
         return redirect()->route('administrateurs.show', ['id' => $administrateur->id]);
     }
-
+    
     // Supprimer un administrateur spécifique de la base de données
     public function destroyAdministrateur($id)
     {
-        $administrateur = User::where('role', 'Admin')->find($id);
+        $administrateur = User::where('role', 'administrateur')->find($id);
         $administrateur->delete();
         return redirect()->route('administrateurs.index');
     }
-}
+}    

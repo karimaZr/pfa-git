@@ -1,4 +1,4 @@
-@extends('backend.layouts.app')
+@extends('lol.app')
 
 @section('content')
 <div class="container">

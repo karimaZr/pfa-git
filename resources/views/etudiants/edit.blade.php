@@ -1,13 +1,12 @@
 
-@include('layouts.index')
-@include('layouts.sidbar')
-@include('layouts.navbar')
+@extends('backend.layouts.app')
+@section('content')
 
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-12">
         <h1>Modifier l'étudiant {{ $etudiant->nom }} {{ $etudiant->prenom }}</h1>
-        <form action="{{ route('etudiants.update', ['etudiant' => $etudiant->id]) }}" method="POST">
+        <form action="{{ route('etudiants.update', ['id' => $etudiant->id]) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -45,4 +44,4 @@
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
     </div>
-    @include('layouts.footer')       
+    @endsection      

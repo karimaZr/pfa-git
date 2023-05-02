@@ -1,48 +1,47 @@
-@include('layouts.index')
-@include('layouts.sidbar')
-@include('layouts.navbar')
+@extends('backend.layouts.app')
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Détails de l'étudiant</div>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label text-md-right">Nom</label>
+                        <div class="col-md-6">
+                            <p>{{ $etudiant->name }}</p>
+                        </div>
+                    </div>
 
-        <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-        <div class="col-sm-12 col-xl-12">
-        <h1>Détails de l'étudiant {{ $etudiant->nom }} {{ $etudiant->prenom }}</h1>
-        <div class="row">
-            <div class="col-md-6">
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td><strong>Nom</strong></td>
-                            <td>{{ $etudiant->nom }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Prénom</strong></td>
-                            <td>{{ $etudiant->prenom }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Email</strong></td>
-                            <td>{{ $etudiant->email }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>CNE</strong></td>
-                            <td>{{ $etudiant->cne }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Date de naissance</strong></td>
-                            <td>{{ $etudiant->date_de_naissance }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Filière</strong></td>
-                            <td>{{ $etudiant->filiere_id }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <a href="{{ route('etudiants.edit', ['id' => $etudiant->id]) }}" class="btn btn-primary">Modifier</a>
-                <form action="{{ route('etudiants.destroy', ['id' => $etudiant->id]) }}" method="POST" style="display: inline-block;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
-                </form>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label text-md-right">Email</label>
+                        <div class="col-md-6">
+                            <p>{{ $etudiant->email }}</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label text-md-right">Filière</label>
+                        <div class="col-md-6">
+                            <p>{{ $etudiant->filiere->Nom ?? 'N/A' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label text-md-right">Photo</label>
+                        <div class="col-md-6">
+                            <img src="{{ asset('image/'.$etudiant->photo) }}" alt="{{ $etudiant->name }}" class="img-fluid rounded-circle" width="150">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-0">
+                        <div class="col-md-6 offset-md-4">
+                            <a href="{{ route('etudiants.index') }}" class="btn btn-secondary">Retour</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    @include('layouts.footer')       
+</div>
+@endsection
