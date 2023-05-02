@@ -28,14 +28,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //datab tables
 Route::get('/etudiant', [App\Http\Controllers\backend\StudentController::class, 'Allstudent'])->name('student');
- 
+
+// Routes pour les notes
+Route::get('/edit-note/{id}', [App\Http\Controllers\backend\StudentController::class, 'editNote'])->name('edit');
 
 
 
 
-Route::get('/1', function () {
-    return view('home');
-});
 
 
 // Routes pour les professeurs
