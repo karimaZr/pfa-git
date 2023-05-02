@@ -26,7 +26,7 @@
                                 <form action="{{ route('administrateurs.destroy', ['id' => $administrateur->id]) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet administrateur ?')">Supprimer</button>
+                                    <button type="submit" class="btn btn-danger"  id="delete">Supprimer</button>
                                 </form>
                             </td>
                         </tr>

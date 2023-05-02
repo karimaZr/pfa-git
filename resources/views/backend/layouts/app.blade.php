@@ -20,6 +20,9 @@
         href="{{ asset('backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
@@ -118,7 +121,8 @@
 <script src="{{asset('backend/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src="{{asset('backend/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{asset('backend/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <!-- Template Javascript -->
     <script src="{{ asset('backend2/js/main.js') }}"></script>
     <script>
@@ -127,9 +131,59 @@
           "responsive": true, "lengthChange": false, "autoWidth": false,
           "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        
-      });
+        $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
     </script>
+    <script>
+        @if (Session::has('messege'))
+            var type = "{{ Session::get('alert-type', 'info') }}"
+            switch (type) {
+                case 'info':
+                    toastr.info("{{ Session::get('messege') }}");
+                    break;
+                case 'success':
+                    toastr.success("{{ Session::get('messege') }}");
+                    break;
+                case 'warning':
+                    toastr.warning("{{ Session::get('messege') }}");
+                    break;
+                case 'error':
+                    toastr.error("{{ Session::get('messege') }}")
+                    break
+            }
+        @endif
+    </script>
+
+     
+    <script>
+    $(document).on("click", "#delete", function(e) {
+      e.preventDefault();
+      var link = $(this).attr("href");
+      swal({
+          title: "Ëtes-vous sur de la modification?",
+          text: "Once, this will be permanently deleted!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+          if (willDelete) {
+              window.location.href = link;
+          } else {
+              swal("Safe delete");
+                  
+          }
+      });
+  });
+</script>
 </body>
 
 </html>

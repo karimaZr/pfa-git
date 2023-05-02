@@ -18,7 +18,7 @@
         </div>
         <div class="navbar-nav w-100">
             <div>
-                <a href="/1" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                <a href="{{route('student')}}" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
             </div>
             @if (auth()->user()->role == 'Admin')
                 <div>
@@ -31,12 +31,12 @@
                     <a href="chart.html" class="nav-item nav-link"><i
                             class="fa fa-chart-bar me-2"></i>Element_Module</a>
                    
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST"> @csrf</form>
+                    
 
                 </div>
             @elseif (auth()->user()->role == 'Etudiant')
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                    <a href="{{route('student')}}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                             class="fa fa-laptop me-2"></i>Filiére</a>
                     <div class="dropdown-menu bg-transparent border-0">
                         <a href="button.html" class="dropdown-item">Buttons</a>
@@ -44,7 +44,7 @@
                         <a href="element.html" class="dropdown-item">Other Elements</a>
                         <div class="sidebar">
                              <ul>
-                                @foreach ($filieres as $filiere)
+                                {{-- @foreach ($filieres as $filiere)
                                     <li class="filiere-item" data-filiere-id="{{ $filiere->id }}">
                                         {{ $filiere->Nom }}
                                         {{-- <ul class="modules-list">
@@ -54,7 +54,7 @@
                                             @endforeach
                                         </ul> --}}
                                     </li>
-                                 @endforeach  
+                                 {{-- @endforeach   --}} 
                             </ul>
                         </div>
                     </div>

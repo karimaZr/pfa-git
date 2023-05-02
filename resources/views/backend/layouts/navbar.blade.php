@@ -1,4 +1,4 @@
- <nav class="navbar navbar-expand bg-secondary navbar-light sticky-top px-4 py-0">
+ <nav class="navbar navbar-expand navbar-dark  sticky-top px-4 py-0">
      <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
          <h2 class="text-secondary mb-0"><i class="fa fa-user-edit"></i></h2>
      </a>
@@ -9,8 +9,11 @@
          <input class="form-control bg-dark border-0" type="search" placeholder="Search">
      </form>
      <div class="navbar-nav align-items-center ms-auto">
-
-
+         
+         
+             
+             
+         </div>
          <div class="nav-item dropdown">
              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                  <img class="rounded-circle me-lg-2" src="{{ url('img/user.jpg') }}" alt=""

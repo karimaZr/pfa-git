@@ -26,11 +26,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-//datab tables
-Route::get('/etudiant', [App\Http\Controllers\backend\StudentController::class, 'Allstudent'])->name('student');
 
 // Routes pour les notes
-Route::get('/edit-note/{id}', [App\Http\Controllers\backend\StudentController::class, 'editNote'])->name('edit');
+Route::get('/edit-note/{iduser}/{idmodule}', [App\Http\Controllers\backend\StudentController::class, 'editNote'])->name('edit');
+Route::post('/update-note/{iduser}/{idmodule}', [App\Http\Controllers\backend\StudentController::class, 'updateNote'])->name('update');
+Route::get('/etudiant', [App\Http\Controllers\backend\StudentController::class, 'Allstudent'])->name('student');
 
 
 
