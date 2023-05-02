@@ -1,6 +1,6 @@
-<div class="sidebar pe-4 pb-3">
-    <nav class="navbar bg-secondary navbar-secondary">
-        <a href="index.html" class="navbar-brand mx-4 mb-3">
+<div class="sidebar custom-bg pe-4 pb-3">
+    <nav class="navbar custom-bg navbar-custom-bg">
+        <a href="#" class="navbar-brand mx-4 mb-3">
             <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>Note</h3>
         </a>
         <div class="d-flex align-items-center ms-4 mb-4">

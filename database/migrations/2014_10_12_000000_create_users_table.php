@@ -16,9 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('role')->default('Etudiant');
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('CNE')->unique()->nullable();
+            $table->date('Date_de_naissance')->nullable();
+            $table->string('specialite')->nullable();
+            $table->string('photo');
             $table->timestamps();
         });
     }
