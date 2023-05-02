@@ -26,7 +26,7 @@
                                 <form action="{{ route('administrateurs.destroy', ['id' => $administrateur->id]) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet administrateur ?')">Supprimer</button>
+                                    <button type="submit" class="btn btn-danger"  id="delete">Supprimer</button>
                                 </form>
                             </td>
                         </tr>
@@ -36,16 +36,7 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        $('#administrateurs-table').DataTable({
-            "language": {
-                "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/fr_fr.json"} // set the language to French
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            });
-    });
-    </script>
+
 @endsection
 
 
