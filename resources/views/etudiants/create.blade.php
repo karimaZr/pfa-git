@@ -1,31 +1,26 @@
-@include('backend.layouts.app')
-@include('backend.layouts.sidebar')
-@include('backend.layouts.navbar')
+@extends('backend.layouts.app')
+@section('content')
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4 ">
         <div class="col-sm-12 col-xl-12">
         <h1 class="mb-5">Ajouter un nouvel étudiant</h1>
-        <form method="post" action="{{ route('etudiants.store') }}">
+        <form method="post" action="{{ route('etudiants.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label for="nom">Nom</label>
-                <input type="text" class="form-control" id="nom" name="nom" required>
-            </div>
-            <div class="form-group">
-                <label for="prenom">Prénom</label>
-                <input type="text" class="form-control" id="prenom" name="prenom" required>
+                <label for="name">Nom</label>
+                <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
             <div class="form-group">
-                <label for="mot_de_passe">Mot de passe</label>
-                <input type="password" class="form-control" id="mot_de_passe" name="mot_de_passe" required>
+                <label for="password">Mot de passe</label>
+                <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <label for="cne">CNE</label>
-                <input type="text" class="form-control" id="cne" name="cne" required>
+                <label for="CNE">CNE</label>
+                <input type="text" class="form-control" id="CNE" name="CNE" required>
             </div>
             <div class="form-group">
                 <label for="date_de_naissance">Date de naissance</label>
@@ -39,8 +34,12 @@
                     @endforeach
                 </select>
             </div>
+            <div class="form-group">
+                <label for="photo">Photo</label>
+                <input type="file" class="form-control" id="photo" name="photo">
+            </div>
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
     </div>
     </div>
- @include('backend.layouts.footer')       
+    @endsection
