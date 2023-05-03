@@ -21,16 +21,17 @@ use App\Http\Controllers\FiliereController;
 Route::get('/', function () {
     return view('auth.login');
 });
-
+Route::get('/verify', function () {
+    return view('auth.verify');
+})->name('verify');
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/home', [ App\Http\Controllers\backend\StudentController::class, 'element'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Routes pour les notes
-Route::get('/edit-note/{iduser}/{idmodule}', [App\Http\Controllers\backend\StudentController::class, 'editNote'])->name('edit');
-Route::post('/update-note/{iduser}/{idmodule}', [App\Http\Controllers\backend\StudentController::class, 'updateNote'])->name('update');
-Route::get('/etudiant', [App\Http\Controllers\backend\StudentController::class, 'Allstudent'])->name('student');
+Route::get('/edit-note/{iduser}/{idelement}', [App\Http\Controllers\backend\StudentController::class, 'editNote'])->name('edit');
+Route::post('/update-note/{iduser}/{idelement}', [App\Http\Controllers\backend\StudentController::class, 'updateNote'])->name('update');
+Route::get('/note/{id}', [App\Http\Controllers\backend\StudentController::class, 'Allstudent'])->name('note');
 
 
 
@@ -89,7 +90,7 @@ Route::get('/element_modules/{element_module}/edit', [ElementModuleController::c
 Route::put('/element_modules/{element_module}', [ElementModuleController::class, 'update'])->name('element_modules.update');
 Route::delete('/element_modules/{element_module}', [ElementModuleController::class, 'destroy'])->name('element_modules.destroy');
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
 

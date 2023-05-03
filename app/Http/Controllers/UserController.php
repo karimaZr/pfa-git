@@ -212,7 +212,7 @@ class UserController extends Controller
     }
     public function indexAdministrateur()
     {
-        $administrateurs = User::where('role', 'administrateur')->get();
+        $administrateurs = User::where('role', 'Admin')->get();
         return view('administrateurs.index', ['administrateurs' => $administrateurs]);
     }
     
@@ -226,7 +226,7 @@ class UserController extends Controller
     public function storeAdministrateur(Request $request)
     {
         $administrateur = new User();
-        $administrateur->nom = $request->input('nom');
+        $administrateur->name = $request->input('nom');
         $administrateur->email = $request->input('email');
         $administrateur->password = bcrypt($request->input('password'));
         $administrateur->photo = $request->input('photo');
