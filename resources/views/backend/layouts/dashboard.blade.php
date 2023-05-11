@@ -47,8 +47,8 @@
     <link href="{{ asset('backend2/css/style.css') }}" rel="stylesheet">
 </head>
 
-<body>
-    <div class="wrapper  position-relative p-0">
+<body class="text-sm">
+    <div class="wrapper">
         <!-- Spinner Start -->
         <div id="spinner"
             class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -58,76 +58,76 @@
         </div>
         <!-- Spinner End -->
 
-
-        <!-- Sidebar Start -->
-       
-
-
-        <!-- Sidebar End -->
-
-
         <!-- Content Start -->
 
         <!-- Navbar Start -->
-        <nav class="navbar navbar-dark sticky-top px-4 py-0">
-            <div class="nav-item ">
-                <img  src="backend/images.png" alt="" style="width: 40px; height: 40px;">
-            </div>
-            <button  onclick="window.location.href='{{ route('home') }}'" type="button" class="btn btn-square btn-secondary m-2"><i class="fa fa-home"></i></button>
-               <form class="d-none d-md-flex ms-4">
-                 <input class="form-control bg-dark border-0" type="search" placeholder="Search">
-             </form>
-            
-                 <div class="nav-item dropdown">
-                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                         <img class="rounded-circle me-lg-2" src="{{ url('img/user.jpg') }}" alt=""
-                             style="width: 40px; height: 40px;">
-                         <span class="d-none d-lg-inline-flex">{{ auth()->user()->name }}</span>
-                     </a>
-                     <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                         <a href="#" class="dropdown-item">My Profile</a>
-                         <a href="#" class="dropdown-item">Settings</a>
-                         <a class="dropdown-item" href="{{ route('logout') }}"
-                             onclick="event.preventDefault(); document.getElementById('logout-form').submit(); ">
-                             Logout
-                         </a>
-                         <form id="logout-form" action="{{ route('logout') }}" method="POST"> @csrf</form>
-        
-                     </div>
-                 </div>
+      
+            <nav class="navbar navbar-expand bg-secondary sticky-top px-3 py-0">
+                <button  onclick="window.location.href='{{ route('home') }}'" type="button" class="btn btn-square  m-2 btn-info"><i class="fa fa-home"></i></button>
+ 
+               <form class="d-none d-md-flex mx-10">
+                  <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+               </form>
+               <div class="navbar-nav align-items-center ms-auto">
                  
-                 
-             </div>
-         </nav>
-        </div>
-        <!-- Navbar End -->
+                   <div class="nav-item dropdown">
+                    
+                       <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                           <span class="d-none d-lg-inline-flex">{{ auth()->user()->name }}</span>
+                       </a>
+                       <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                           <a href="#" class="dropdown-item">Profile</a>
+                           <a href="#" class="dropdown-item">Paramétres</a>
+                           <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit(); ">
+                               Déconnexion
+                           </a>
+                           <form id="logout-form" action="{{ route('logout') }}" method="POST"> @csrf</form>
+          
+                       </div>
+                       
+                   </div>
+                  
+                   
+          
+          
+          
+          
+          
+               </div>
+               
+              </nav>
+          
+
+            <!-- Navbar End -->
 
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="container-fluid ">
+            <!-- Content Wrapper. Contains page content -->
+
             @yield('content')
 
+            <!-- Footer Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                            &copy; <a href="#">Note</a>,tous les droits sont resérvées 
+                        </div>
+                        <div class="col-12 col-sm-6 text-center text-sm-end">
+                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                            Designed By <a href="https://www.ensaj.ucd.ac.ma/">Ensa El jadida</a>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Footer Start -->
-
-
-
-        <footer class=" pt-4 px-4 text-sm">
-            <strong>Copyright &copy; 2023-2024 Ensaj</strong>
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.2.0
-
-            </div>
-        </footer>
-
-
         <!-- Footer End -->
-
-
-
     </div>
+
+
+
     <!-- Content End -->
 
 

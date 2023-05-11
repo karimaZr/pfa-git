@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('element__modules', function (Blueprint $table) {
+        Schema::create('element_modules', function (Blueprint $table) {
             $table->id();
             $table->string('Code')->unique();
             $table->string('Nom');
             $table->integer('coifficent');
             $table->unsignedBigInteger('module_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('module_id')->references('id')->on('modules');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
