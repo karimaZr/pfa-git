@@ -1,47 +1,43 @@
 @extends('backend.layouts.app')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Détails de l'étudiant</div>
-                <div class="card-body">
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">Nom</label>
-                        <div class="col-md-6">
-                            <p>{{ $etudiant->name }}</p>
-                        </div>
-                    </div>
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-12">
+                <h1>Détails d'etudiant {{ $etudiant->name }} </h1>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Nom et Prénom:</th>
+                            <td>{{ $etudiant->name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ $etudiant->email}}</td>
+                        </tr>
+                        <tr>
+                            <th>CNE :</th>
+                            <td>{{ $etudiant->CNE }}</td>
+                        </tr>
+                        <tr>
+                            <th>date_de_naissance :</th>
+                            <td>{{$etudiant->Date_de_naissance}}</td>
+                        </tr>
+                        <tr>
+                            <th>Filiere :</th>
+                            <td>{{ $etudiant->filiere->Nom ?? 'N/A' }}</td>
+                        </tr>
 
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">Email</label>
-                        <div class="col-md-6">
-                            <p>{{ $etudiant->email }}</p>
-                        </div>
-                    </div>
+                        <tr>
+                            <th>Photo :</th>
+                            <td><img src='/img/{{ $etudiant->photo}}' width="96"></td>
+                        </tr>
+                        <tr>
+                            <th><a href="{{ route('etudiants.index') }}" class="btn btn-secondary">Retour</a></th>
+                            <a href="{{ route('etudiants.edit', ['id' => $etudiant->id]) }}" class="btn btn-primary">Modifier</a>
+                            <td><a href="{{ route('etudiants.destroy', ['id' =>$etudiant->id]) }}" id="delete" class="btn btn-danger">Supprimer</a>                            </td>
+                        </tr> 
+                    </tbody>
+                </table>
 
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">Filière</label>
-                        <div class="col-md-6">
-                            <p>{{ $etudiant->filiere->Nom ?? 'N/A' }}</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">Photo</label>
-                        <div class="col-md-6">
-                            <img src="{{ asset('image/'.$etudiant->photo) }}" alt="{{ $etudiant->name }}" class="img-fluid rounded-circle" width="150">
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <a href="{{ route('etudiants.index') }}" class="btn btn-secondary">Retour</a>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-    </div>
-</div>
 @endsection

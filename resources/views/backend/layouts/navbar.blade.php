@@ -1,40 +1,45 @@
- <nav class="navbar navbar-dark sticky-top px-3 py-0">
-    <div class="nav-item dropdown">
-        <img class="rounded-circle" src="backend/logo.png" alt="" style="width: 50px; height: 50px;">
-    </div>
-    <a href="#" class="navbar-brand px-6 mx-4 mb-3">
-        <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>Note</h3>
-    </a>
-     <a href="#" class="sidebar-toggler flex-shrink-0">
-         <i class="fa fa-bars"></i>
+ <nav class="navbar navbar-expand bg-secondary sticky-top px-3 py-0">
+    
+      <a href="#" class="sidebar-toggler flex-shrink-0">
+        <i class="fa fa-bars"></i>
      </a>
-     <form class="d-none d-md-flex mx-4">
-         <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+     <form class="d-none d-md-flex mx-6">
+        <input class="form-control bg-dark border-0" type="search" placeholder="Search">
      </form>
      <div class="navbar-nav align-items-center ms-auto">
-         
-         
-             
-             
-         </div>
+       
          <div class="nav-item dropdown">
              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                 <img class="rounded-circle me-lg-2" src="{{ url('img/user.jpg') }}" alt=""
-                     style="width: 40px; height: 40px;">
+                @if(auth()->user()->role=='Etudiant')
+                <img class="rounded-circle" src="backend2\img\testimonial-1.jpg"
+                    style="width: 50px; height: 50px;">
+                @else
+                <img class="rounded-circle" src="backend2\img\testimonial-2.jpg"
+                style="width: 50px; height: 50px;">
+                @endif
                  <span class="d-none d-lg-inline-flex">{{ auth()->user()->name }}</span>
              </a>
              <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                 <a href="#" class="dropdown-item">My Profile</a>
-                 <a href="#" class="dropdown-item">Settings</a>
+                 <a href="#" class="dropdown-item">Profile</a>
+                 <a href="#" class="dropdown-item">Paramétres</a>
                  <a class="dropdown-item" href="{{ route('logout') }}"
                      onclick="event.preventDefault(); document.getElementById('logout-form').submit(); ">
-                     Logout
+                     Déconnexion
                  </a>
                  <form id="logout-form" action="{{ route('logout') }}" method="POST"> @csrf</form>
 
              </div>
          </div>
-         
-         
+        
+         <div class="img-nav">
+            <img class="rounded-circle" src="backend/logo.png" alt="" style="width: 50px; height: 50px;">
+    
+         </div>
+
+
+
+
+
      </div>
- </nav>
+     
+    </nav>

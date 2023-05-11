@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('modules', function (Blueprint $table) {
+        Schema::create('filiere_user', function (Blueprint $table) {
             $table->id();
-            $table->string('Code')->unique();
-            $table->string('Nom');
             $table->unsignedBigInteger('filiere_id');
-            $table->foreign('filiere_id')->references('id')->on('filieres')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+    
+            $table->foreign('filiere_id')->references('id')->on('filieres')->onDelete('cascade')
+            ->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')
+            ->onUpdate('cascade');
         });
     }
 
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('modules');
+        Schema::dropIfExists('filiere_user');
     }
 };

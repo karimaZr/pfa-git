@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('CNE')->unique()->nullable();
             $table->date('Date_de_naissance')->nullable();
             $table->string('specialite')->nullable();
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

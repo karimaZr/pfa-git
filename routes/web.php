@@ -21,20 +21,19 @@ use App\Http\Controllers\FiliereController;
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::get('/verify', function () {
-    return view('auth.verify');
-})->name('verify');
+
 Auth::routes();
-Route::get('/home', [ App\Http\Controllers\backend\StudentController::class, 'element'])->name('home');
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Routes pour les notes
-Route::get('/edit-note/{iduser}/{idelement}', [App\Http\Controllers\backend\StudentController::class, 'editNote'])->name('edit');
-Route::post('/update-note/{iduser}/{idelement}', [App\Http\Controllers\backend\StudentController::class, 'updateNote'])->name('update');
+// Routes pour les notes
+Route::get('/edit-note/{idelement}/{iduser}', [App\Http\Controllers\backend\StudentController::class, 'editNote'])->name('edit');
+Route::post('/update-note/{idelement}/{iduser}', [App\Http\Controllers\backend\StudentController::class, 'updateNote'])->name('update');
 Route::get('/note/{id}', [App\Http\Controllers\backend\StudentController::class, 'Allstudent'])->name('note');
-
-
-
+Route::get('/note_module/{id_S}', [App\Http\Controllers\backend\StudentController::class, 'noteEtud'])->name('note_module');
+Route::get('/note_S', [App\Http\Controllers\backend\StudentController::class, 'noteSemestre'])->name('note_semestre');
+Route::get('/export/{id}', [App\Http\Controllers\backend\StudentController::class, 'export'])->name('export');
+Route::post('/add/{idelement}/{iduser}', [App\Http\Controllers\backend\StudentController::class, 'addNote'])->name('add1');
+Route::get('/modify-note/{idelement}/{iduser}', [App\Http\Controllers\backend\StudentController::class, 'modify'])->name('modify');
 
 
 
@@ -43,9 +42,10 @@ Route::get('/professeurs', [UserController::class, 'indexProfesseur'])->name('pr
 Route::get('/professeurs/create', [UserController::class, 'createProfesseur'])->name('professeurs.create');
 Route::post('/professeurs', [UserController::class, 'storeProfesseur'])->name('professeurs.store');
 Route::get('/professeurs/{id}', [UserController::class, 'showProfesseur'])->name('professeurs.show');
-Route::get('/professeurs/{id}/edit', [UserController::class, 'ediProfesseur'])->name('professeurs.edit');
+Route::get('/professeurs/{id}/edit', [UserController::class, 'editProfesseur'])->name('professeurs.edit');
 Route::put('/professeurs/{id}', [UserController::class, 'updateProfesseur'])->name('professeurs.update');
 Route::delete('/professeurs/{id}', [UserController::class, 'destroyProfesseur'])->name('professeurs.destroy');
+Route::get('/teacher/{id}/element-module', [UserController::class, 'getElementModuleByTeacher'])->name('teacher.element-module');
 
 // Routes pour les étudiants
 Route::get('/etudiants', [UserController::class, 'indexEtudiant'])->name('etudiants.index');
@@ -72,14 +72,18 @@ Route::get('/filiere/{filiere}', [FiliereController::class,'show'])->name('filie
 Route::get('/filiere/{filiere}/edit', [FiliereController::class,'edit'])->name('filiere.edit');
 Route::put('/filiere/{filiere}',[FiliereController::class,'update'])->name('filiere.update');
 Route::delete('/filiere/{filiere}', [FiliereController::class,'destroy'])->name('filiere.destroy');
-//module
-Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index');
-Route::get('/modules/create', [ModuleController::class,'create'])->name('modules.create');
-Route::post('/modules', [ModuleController::class,'store'])->name('modules.store');
-Route::get('/modules/{module}/edit', [ModuleController::class,'edit'])->name('modules.edit');
-Route::put('/modules/{module}', [ModuleController::class,'update'])->name('modules.update');
-Route::delete('/modules/{module}', [ModuleController::class,'destroy'])->name('modules.destroy');
+Route::get('/filiere/{id}/etudiants', [FiliereController::class,'etudiants'])->name('filiere.etudiants');
+Route::get('filieres/{id}/modules', [FiliereController::class, 'modules'])->name('filiere.modules');
 
+// modules
+Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index');
+Route::get('/modules/create', [ModuleController::class, 'create'])->name('modules.create');
+Route::post('/modules', [ModuleController::class, 'store'])->name('modules.store');
+Route::get('/modules/{module}', [ModuleController::class, 'show'])->name('modules.show');
+Route::get('/modules/{module}/edit', [ModuleController::class, 'edit'])->name('modules.edit');
+Route::put('/modules/{module}', [ModuleController::class, 'update'])->name('modules.update');
+Route::delete('/modules/{module}', [ModuleController::class, 'destroy'])->name('modules.destroy');
+Route::get('/module/{id}/elements', [ModuleController::class, 'getElementModuleByModule'])->name('module.elements');
 
 //element_module
 Route::get('/element_modules/create', [ElementModuleController::class, 'create'])->name('element_modules.create');
@@ -89,6 +93,14 @@ Route::get('/element_modules/{element_module}', [ElementModuleController::class,
 Route::get('/element_modules/{element_module}/edit', [ElementModuleController::class, 'edit'])->name('element_modules.edit');
 Route::put('/element_modules/{element_module}', [ElementModuleController::class, 'update'])->name('element_modules.update');
 Route::delete('/element_modules/{element_module}', [ElementModuleController::class, 'destroy'])->name('element_modules.destroy');
+//statistique
+Route::get('/dashboard/Admin', [UserController::class, 'getStudentCount']);
+
+///notes
+Route::get('/modules/{module}/notes', [NoteController::class, 'index'])->name('notes.index');
+Route::put('/modules/{module}/notes', [NoteController::class, 'update'])->name('notes.update');
+//profile
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'showuser'])->name('home');
 
 
 

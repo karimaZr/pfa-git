@@ -48,150 +48,155 @@
 </head>
 
 <body>
-    <div class="wrapper  position-relative p-0">
+    <div class="text-sm">
         <!-- Spinner Start -->
-        <div id="spinner"
-            class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
+        <div class="wrapper">
+            <div id="spinner"
+                class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
-        </div>
-        <!-- Spinner End -->
+            <!-- Spinner End -->
 
 
-        <!-- Sidebar Start -->
-        @include('backend.layouts.sidebar')
+            <!-- Sidebar Start -->
+            @include('backend.layouts.sidebar')
 
 
-        <!-- Sidebar End -->
+            <!-- Sidebar End -->
 
 
-        <!-- Content Start -->
+            <!-- Content Start -->
 
-        <!-- Navbar Start -->
-        @include('backend.layouts.navbar')
-        <!-- Navbar End -->
+            <div class="content">
+                <!-- Navbar Start -->
+                @include('backend.layouts.navbar')
+                <!-- Navbar End -->
 
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class=" content container-fluid ">
-            @yield('content')
+                <!-- Content Wrapper. Contains page content -->
 
-        </div>
-
-        <!-- Footer Start -->
+                @yield('content')
 
 
 
-        <footer class=" pt-4 px-4 content text-sm">
-            <strong>Copyright &copy; 2023-2024 Ensaj</strong>
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.2.0
+                <!-- Footer Start -->
+                <div class="container-fluid pt-4 px-4">
+                    <div class="bg-secondary rounded-top p-4">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 text-center text-sm-start">
+                                &copy; <a href="#">Note</a>,tous les droits sont resérvées 
+                            </div>
+                            <div class="col-12 col-sm-6 text-center text-sm-end">
+                                <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                                Designed By <a href="https://www.ensaj.ucd.ac.ma/">Ensa El jadida</a>
+                             <img class="rounded-circle  " src="backend/logo.png" alt="" style="width: 50px; height: 50px;">
+                                
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer End -->
             </div>
-        </footer>
 
 
-        <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
 
 
-    </div>
-    <!-- Content End -->
-
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('backend2/lib/chart/chart.min.js') }}"></script>
-    <script src="{{ asset('backend2/lib/easing/easing.min.js') }}"></script>
-    <script src="{{ asset('backend2/lib/waypoints/waypoints.min.js') }}"></script>
-    <script src="{{ asset('backend2/lib/owlcarousel/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('backend2/lib/tempusdominus/js/moment.min.js') }}"></script>
-    <script src="{{ asset('backend2/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
-    <script src="{{ asset('backend2/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-    <!-- Template Javascript -->
-    <script src="{{ asset('backend2/js/main.js') }}"></script>
-    <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
-        });
-    </script>
-    <script>
-        @if (Session::has('messege'))
-            var type = "{{ Session::get('alert-type', 'info') }}"
-            switch (type) {
-                case 'info':
-                    toastr.info("{{ Session::get('messege') }}");
-                    break;
-                case 'success':
-                    toastr.success("{{ Session::get('messege') }}");
-                    break;
-                case 'warning':
-                    toastr.warning("{{ Session::get('messege') }}");
-                    break;
-                case 'error':
-                    toastr.error("{{ Session::get('messege') }}")
-                    break
-            }
-        @endif
-    </script>
-
-
-    <script>
-        $(document).on("click", "#delete", function(e) {
-            e.preventDefault();
-            var link = $(this).attr("href");
-            swal({
-                    title: "Ëtes-vous sur de la modification?",
-                    text: "Once, this will be permanently deleted!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        window.location.href = link;
-                    } else {
-                        swal("Safe delete");
-
-                    }
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('backend2/lib/chart/chart.min.js') }}"></script>
+        <script src="{{ asset('backend2/lib/easing/easing.min.js') }}"></script>
+        <script src="{{ asset('backend2/lib/waypoints/waypoints.min.js') }}"></script>
+        <script src="{{ asset('backend2/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+        <script src="{{ asset('backend2/lib/tempusdominus/js/moment.min.js') }}"></script>
+        <script src="{{ asset('backend2/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+        <script src="{{ asset('backend2/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/jszip/jszip.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/pdfmake/pdfmake.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/pdfmake/vfs_fonts.js') }}"></script>
+        <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+        <!-- Template Javascript -->
+        <script src="{{ asset('backend2/js/main.js') }}"></script>
+        <script>
+            $(function() {
+                $("#example1").DataTable({
+                    "responsive": true,
+                    "lengthChange": false,
+                    "autoWidth": false,
+                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                $('#example2').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
                 });
-        });
-    </script>
+            });
+        </script>
+        <script>
+            @if (Session::has('messege'))
+                var type = "{{ Session::get('alert-type', 'info') }}"
+                switch (type) {
+                    case 'info':
+                        toastr.info("{{ Session::get('messege') }}");
+                        break;
+                    case 'success':
+                        toastr.success("{{ Session::get('messege') }}");
+                        break;
+                    case 'warning':
+                        toastr.warning("{{ Session::get('messege') }}");
+                        break;
+                    case 'error':
+                        toastr.error("{{ Session::get('messege') }}")
+                        break
+                }
+            @endif
+        </script>
+
+
+        <script>
+            $(document).on("click", "#delete", function(e) {
+                e.preventDefault();
+                var link = $(this).attr("href");
+                swal({
+                        title: "Ëtes-vous sur de la modification?",
+                        text: "Once, this will be permanently deleted!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            window.location.href = link;
+                        } else {
+                            swal("Safe delete");
+
+                        }
+                    });
+            });
+        </script>
 </body>
 
 </html>
