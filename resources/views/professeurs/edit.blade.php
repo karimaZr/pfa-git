@@ -1,32 +1,34 @@
-@include('layouts.index')
-@include('layouts.sidbar')
-@include('layouts.navbar')
+@extends('backend.layouts.app')
+@section('content')
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-12">
+        <h1>Modifier un professeur</h1>
 
-            <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-12 col-xl-12">
-        <h1>Modification du professeur {{ $professeur->Nom }} {{ $professeur->Prenom }}</h1>
-        <form action="{{ route('professeurs.update', $professeur) }}" method="POST">
+        <form action="{{ route('professeurs.update', $professeur->id) }}" method="POST" enctype="multipart/form-data" >
             @csrf
             @method('PUT')
             <div class="form-group">
-                <label for="nom">Nom :</label>
-                <input type="text" class="form-control" id="nom" name="nom" value="{{ $professeur->Nom }}">
+                <label for="nom">Nom et Prénom:</label>
+                <input type="text" class="form-control" name="name" value="{{ $professeur->name }}" required>
             </div>
             <div class="form-group">
-                <label for="prenom">Prénom :</label>
-                <input type="text" class="form-control" id="prenom" name="prenom" value="{{ $professeur->Prenom }}">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" name="email" value="{{ $professeur->email }}" required>
             </div>
             <div class="form-group">
-                <label for="email">Email :</label>
-                <input type="email" class="form-control" id="email" name="email" value="{{ $professeur->Email }}">
+                <label for="password">Mot de passe:</label>
+                <input type="password" class="form-control" name="password">
             </div>
             <div class="form-group">
-                <label for="specialite">Spécialité :</label>
-                <input type="text" class="form-control" id="specialite" name="specialite" value="{{ $professeur->Specialite }}">
+                <label for="specialite">Specialite:</label>
+                <input type="text" class="form-control" name="specialite" value="{{ $professeur->specialite }}" required>
             </div>
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <div class="form-group">
+                <label for="photo">Photo</label>
+                <input type="file" class="form-control" id="photo" name="photo">
+            </div>
+            <button type="submit" class="btn btn-primary">Modifier</button>
         </form>
     </div>
-    @include('layouts.footer')       
-
+@endsection     

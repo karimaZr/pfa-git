@@ -23,8 +23,8 @@ return new class extends Migration
             $table->unique(['user_id', 'module_id', 'session']);
             $table->unique(['user_id', 'session', 'annee_universitaire']);
             
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('module_id')->references('id')->on('modules');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade')->onUpdate('cascade');
             
         });
     }
