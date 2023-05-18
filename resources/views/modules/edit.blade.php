@@ -1,87 +1,44 @@
 @extends('backend.layouts.app')
+
 @section('content')
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <div class="col-sm-12 col-xl-12">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-header">{{ __('Modifier un module') }}</div>
-
-                            <div class="card-body">
-                                <form method="post" action="{{ route('modules.update', $module->id) }}">
-                                    @csrf
-                                    @method('PUT')
-
-                                    <div class="form-group row">
-                                        <label for="code"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Code') }}</label>
-
-                                        <div class="col-md-6">
-                                            <input id="code" type="text"
-                                                class="form-control @error('code') is-invalid @enderror" name="code"
-                                                value="{{ old('code', $module->Code) }}" required autocomplete="code"
-                                                autofocus>
-
-                                            @error('code')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="nom"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Nom') }}</label>
-
-                                        <div class="col-md-6">
-                                            <input id="nom" type="text"
-                                                class="form-control @error('nom') is-invalid @enderror" name="nom"
-                                                value="{{ old('nom', $module->Nom) }}" required autocomplete="nom">
-
-                                            @error('nom')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="filiere"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Filière') }}</label>
-
-                                        <div class="col-md-6">
-                                            <select name="filiere_id"
-                                                class="form-control @error('filiere_id') is-invalid @enderror" required>
-                                                <option value="">-- Choisir une filière --</option>
-                                                @foreach ($filieres as $filiere)
-                                                    <option value="{{ $filiere->id }}"
-                                                        {{ old('filiere_id', $module->filiere_id) == $filiere->id ? 'selected' : '' }}>
-                                                        {{ $filiere->Nom }}</option>
-                                                @endforeach
-                                            </select>
-
-                                            @error('filiere_id')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mb-0">
-                                        <div class="col-md-6 offset-md-4">
-                                            <button type="submit" class="btn btn-primary">
-                                                {{ __('Enregistrer') }}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                <h1>Modifier un module</h1>
+                <form action="{{ route('modules.update', $module->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <label for="Code">Code :</label>
+                        <input type="text" name="code" id="Code" class="form-control" value="{{ $module->Code }}" required>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="Nom">Nom :</label>
+                        <input type="text" name="Nom" id="nom" class="form-control" value="{{ $module->Nom }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="filiere_id">Filière :</label>
+                        <select name="filiere_id" id="filiere_id" class="form-control" required>
+                            @foreach ($filieres as $filiere)
+                                <option value="{{ $filiere->id }}" {{ $module->filiere_id == $filiere->id ? 'selected' : '' }}>
+                                    {{ $filiere->Nom }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="semestre">Semestre :</label>
+                        <select name="semestre" id="semestre" class="form-control" required>
+                            <option value="1" {{ $module->semestre == 1 ? 'selected' : '' }}>S 1</option>
+                            <option value="2" {{ $module->semestre== 2 ? 'selected' : '' }}>S 2</option>
+                            <!-- Ajoutez les autres options de semestre ici -->
+                        </select>
+                    </div>
+                    
+
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </form>
             </div>
-        @endsection
+        </div>
+    </div>
+@endsection

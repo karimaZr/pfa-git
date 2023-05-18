@@ -47,7 +47,7 @@
     <link href="{{ asset('backend2/css/style.css') }}" rel="stylesheet">
 </head>
 
-<body class="text-sm">
+<body >
     <div class="wrapper">
         <!-- Spinner Start -->
         <div id="spinner"
@@ -76,7 +76,7 @@
                            <span class="d-none d-lg-inline-flex">{{ auth()->user()->name }}</span>
                        </a>
                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                           <a href="#" class="dropdown-item">Profile</a>
+                           <a href="{{route('home')}}" class="dropdown-item">Profile</a>
                            <a href="#" class="dropdown-item">Paramétres</a>
                            <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit(); ">

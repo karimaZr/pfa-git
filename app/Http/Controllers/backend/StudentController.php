@@ -13,7 +13,36 @@ class StudentController extends Controller
     {
         $this->middleware('auth');
     }
+    public function noteEtud($id_S)
+    {
+        $notes = DB::table('notes')
+            ->join('users', 'notes.user_id', '=', 'users.id')
+            ->join('element__modules', 'notes.element_id', '=', 'element__modules.id')
+            ->join('modules', 'element__modules.module_id', '=', 'modules.id')
+            ->join('filieres', 'modules.filiere_id', '=', 'filieres.id')
+            ->where('users.id', '=', auth()->user()->id)
+            ->where('modules.semestre', '=', $id_S)
+            ->select(
+                'modules.Nom as module_name',
+                'notes.annee_universitaire as annee',
+                'filieres.Nom as filiere', DB::raw('SUM(notes.note * element__modules.coifficent) AS module_note'),
+                'notes.session as session'
+            )
+            ->groupBy('modules.id', 'modules.Nom', 'notes.session', 'filiere', 'annee')
+            ->get();
+        $moduleCount = DB::table('notes')
+            ->join('users', 'notes.user_id', '=', 'users.id')
+            ->join('element__modules', 'notes.element_id', '=', 'element__modules.id')
+            ->join('modules', 'element__modules.module_id', '=', 'modules.id')
+            ->where('users.id', '=', auth()->user()->id)
+            ->where('modules.semestre', '=', $id_S)
+            ->select(DB::raw('COUNT(DISTINCT modules.id) as count'))
+            ->first();
 
+
+        return view('backend.user.student', compact('notes', 'moduleCount'))
+            ->with('id', $id_S);
+    }
     public function noteSemestre()
     { // Get the notes and module count for semester 1
 
@@ -23,7 +52,7 @@ class StudentController extends Controller
             ->join('modules', 'element__modules.module_id', '=', 'modules.id')
             ->join('filieres', 'modules.filiere_id', '=', 'filieres.id')
             ->where('users.id', '=', auth()->user()->id)
-            ->where('notes.semestre', '=', 'S1')
+            ->where('modules.semestre', '=', 'S1')
             ->select('modules.Nom as module_name', 'notes.annee_universitaire as annee', 'filieres.Nom as filiere', DB::raw('SUM(notes.note * element__modules.coifficent) AS module_note'), 'notes.session as session')
             ->groupBy('modules.id', 'modules.Nom', 'notes.session', 'filiere', 'annee')
             ->get();
@@ -32,7 +61,7 @@ class StudentController extends Controller
             ->join('element__modules', 'notes.element_id', '=', 'element__modules.id')
             ->join('modules', 'element__modules.module_id', '=', 'modules.id')
             ->where('users.id', '=', auth()->user()->id)
-            ->where('notes.semestre', '=', 'S1')
+            ->where('modules.semestre', '=', 'S1')
             ->select(DB::raw('COUNT(DISTINCT modules.id) as count'))
             ->first();
 
@@ -52,7 +81,7 @@ class StudentController extends Controller
             ->join('modules', 'element__modules.module_id', '=', 'modules.id')
             ->join('filieres', 'modules.filiere_id', '=', 'filieres.id')
             ->where('users.id', '=', auth()->user()->id)
-            ->where('notes.semestre', '=', 'S2')
+            ->where('modules.semestre', '=', 'S2')
             ->select('modules.Nom as module_name', 'notes.annee_universitaire as annee', 'filieres.Nom as filiere', DB::raw('SUM(notes.note * element__modules.coifficent) AS module_note'), 'notes.session as session')
             ->groupBy('modules.id', 'modules.Nom', 'notes.session', 'filiere', 'annee')
             ->get();
@@ -61,7 +90,7 @@ class StudentController extends Controller
             ->join('element__modules', 'notes.element_id', '=', 'element__modules.id')
             ->join('modules', 'element__modules.module_id', '=', 'modules.id')
             ->where('users.id', '=', auth()->user()->id)
-            ->where('notes.semestre', '=', 'S2')
+            ->where('modules.semestre', '=', 'S2')
             ->select(DB::raw('COUNT(DISTINCT modules.id) as count'))
             ->first();
 
@@ -90,15 +119,19 @@ class StudentController extends Controller
                 'users.id as id_user',
                 'element__modules.id as id_element',
                 'filieres.abriviation as filiere'
-                ,
-                'notes.note',
+                ,'notes.session as session',
+                'notes.note as note',
                 'users.name as user',
                 'users.CNE as CNE'
+               
+                ,'modules.semestre as semestre',
+                
             )
             ->distinct()
             ->get();
 
-        return view('backend.user.prof', compact('notes'));
+
+        return view('backend.user.prof', compact('notes','id'));
     }
     public function export($id)
     {
@@ -118,7 +151,8 @@ class StudentController extends Controller
                 ,
                 'users.name as user',
                 'users.CNE as CNE',
-                'notes.note'
+                'notes.note',
+                'notes.session as session',
             )->get();
 
         $note = DB::table('users')
@@ -131,130 +165,97 @@ class StudentController extends Controller
             })
             ->where('element__modules.id', '=', $id)
             ->select(
-                'filieres.abriviation as filiere',
+                
+                DB::raw('CONCAT(filieres.abriviation, filieres.Niveau) as filiere'),
                 'element__modules.nom as element'
             )->first();
 
         return view('backend.user.export', compact('notes', 'note'))->with('id', $id);
     }
 
-    public function noteEtud($id_S)
-    {
-        $notes = DB::table('notes')
-            ->join('users', 'notes.user_id', '=', 'users.id')
-            ->join('element__modules', 'notes.element_id', '=', 'element__modules.id')
-            ->join('modules', 'element__modules.module_id', '=', 'modules.id')
-            ->join('filieres', 'modules.filiere_id', '=', 'filieres.id')
-            ->where('users.id', '=', auth()->user()->id)
-            ->where('notes.semestre', '=', $id_S)
-            ->select(
-                'modules.Nom as module_name',
-                'notes.annee_universitaire as annee',
-                'filieres.Nom as filiere', DB::raw('SUM(notes.note * element__modules.coifficent) AS module_note'),
-                'notes.session as session'
-            )
-            ->groupBy('modules.id', 'modules.Nom', 'notes.session', 'filiere', 'annee')
-            ->get();
-        $moduleCount = DB::table('notes')
-            ->join('users', 'notes.user_id', '=', 'users.id')
-            ->join('element__modules', 'notes.element_id', '=', 'element__modules.id')
-            ->join('modules', 'element__modules.module_id', '=', 'modules.id')
-            ->where('users.id', '=', auth()->user()->id)
-            ->where('notes.semestre', '=', $id_S)
-            ->select(DB::raw('COUNT(DISTINCT modules.id) as count'))
-            ->first();
+    
+    public function addNote(Request $request, $idelement)
+           
+{ 
+    $notes = $request->input('notes', []);
+    $userIds = $request->input('userIds', []);
+    $sessions = $request->input('sessions', []);
+    $data = [];
 
+    foreach ($userIds as $index => $userId) {
+        $note = $notes[$index];
+        $session = $sessions[$index];
 
-        return view('backend.user.student', compact('notes', 'moduleCount'))
-            ->with('id', $id_S);
+        $data[] = [
+            'element_id' => $idelement,
+            'user_id' => $userId,
+            'note' => $note,
+            'session' => $session,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
     }
-    public function editNote($iduser, $idelement)
-    {
-        $edit = DB::table('users')
-        ->join('filieres', 'users.filiere_id', '=', 'filieres.id')
-        ->join('modules', 'filieres.id', '=', 'modules.filiere_id')
-        ->join('element__modules', 'modules.id', '=', 'element__modules.module_id')
-        ->leftJoin('notes', function ($join) use ($iduser, $idelement) {
-            $join->on('notes.user_id', '=', 'users.id')
-                ->where('notes.element_id', '=', $idelement)
-                ->where('notes.user_id', '=', $iduser);
-        })
-        ->where('element__modules.id', '=', $idelement)
-        ->where('users.id', '=', $iduser)
-        ->select('users.id as id_user', 'filieres.abriviation as filiere', 'users.name as user', 'element__modules.id as id_element', 'notes.note', 'users.CNE as CNE')
-        ->first();
-        return view("backend.user.add_Note", compact('edit'));
 
+    foreach ($data as $row) {
+        $insert=DB::table('notes')
+            ->where('element_id', $row['element_id'])
+            ->where('user_id', $row['user_id'])
+            ->updateOrInsert($row);
     }
-    public function addNote(Request $request, $idelement, $iduser)
-    {
-        $data = array();
-        $data['element_id'] = $idelement;
-        $data['user_id'] = $iduser;
-        $data['note'] = $request->note;
-        $data['semestre'] = $request->semestre;
-        $data['session'] = $request->session;
-        $data['created_at'] = date('Y-m-d H:i:s');
-        $data['updated_at'] = date('Y-m-d H:i:s');
-        $insert = DB::table('notes')->insert($data);
-        if ($insert) {
-            $notification = array(
-                'messege' => 'note ajouté avec succés',
-                'alert-type' => 'success'
-            );
-            return redirect()->route('note', ['id' => $idelement])->with($notification);
 
-        } else {
-            $notification = array(
-                'messege' => 'note non ajouté,ressayez!',
-                'alert-type' => 'error'
-            );
-            return redirect()->route('note', ['id' => $idelement])->with($notification);
-        }
+    if ($insert) {
+        $notification = array(
+            'messege' => 'notes ajoutés avec succés',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('note', ['id' => $idelement])->with($notification);
+
+    } else {
+        $notification = array(
+            'messege' => 'notes non ajoutés, ressayez!',
+            'alert-type' => 'error'
+        );
+        return redirect()->route('note', ['id' => $idelement])->with($notification);
+    }
 
 
     }
-    public function modify($iduser, $idelement)
-    {
-        $edit = DB::table('users')
-            ->join('filieres', 'users.filiere_id', '=', 'filieres.id')
-            ->join('modules', 'filieres.id', '=', 'modules.filiere_id')
-            ->join('element__modules', 'modules.id', '=', 'element__modules.module_id')
-            ->leftJoin('notes', function ($join) use ($iduser, $idelement) {
-                $join->on('notes.user_id', '=', 'users.id')
-                    ->where('notes.element_id', '=', $idelement)
-                    ->where('notes.user_id', '=', $iduser);
-            })
-            ->where('element__modules.id', '=', $idelement)
-            ->where('users.id', '=', $iduser)
-            ->select('users.id as id_user', 'filieres.abriviation as filiere', 'users.name as user', 'element__modules.id as id_element', 'notes.note', 'users.CNE as CNE')
-            ->first();
+   
+    public function updateNote(Request $request, $idelement)
 
+{ 
+    $notes = $request->input('notes', []);
+    $userIds = $request->input('userIds', []);
+    $sessions = $request->input('sessions', []);
+    
+    foreach ($userIds as $index => $userId) {
+        $note = $notes[$index];
+        $session = $sessions[$index];
 
-        return view("backend.user.edit_note", compact('edit'));
+        $update=DB::table('notes')
+            ->where('element_id', $idelement)
+            ->where('user_id', $userId)
+            ->update([
+                'note' => $note,
+                'session' => $session,
+                'updated_at' => now(),
+            ]);
     }
-    public function updateNote(Request $request, $iduser, $id_element)
-    {
-
-
-        $update = DB::table('notes')
-            ->where('user_id', $iduser)
-            ->where('element_id', $id_element)
-            ->update(['note' => $request->note]);
+  
+       
         if ($update) {
             $notification = array(
-                'messege' => 'note modifié avec succés',
+                'messege' => 'notes mis à jour avec succés',
                 'alert-type' => 'success'
             );
-            return redirect()->route('note', ['id' => $id_element])->with($notification);
-
+            return redirect()->route('note', ['id' => $idelement])->with($notification);
+    
         } else {
             $notification = array(
-                'messege' => 'note non modifié,ressayez!',
+                'messege' => 'notes non mis à jour, ressayez!',
                 'alert-type' => 'error'
             );
-            return redirect()->route('note', ['id' => $id_element])->with($notification);
+            return redirect()->route('note', ['id' => $idelement])->with($notification);
         }
-
     }
-}
+}    

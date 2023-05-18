@@ -12,9 +12,15 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     public function filiere()
+{
+    return $this->belongsTo(Filiere::class);
+}
+
+    public function elementModules()
     {
-        return $this->belongsTo(Filiere::class);
+        return $this->hasMany(Element_Module::class);
     }
+    
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +31,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'CNE',
+        'date_de_naissance',
+        'specialite',
+        'role',
+        'photo'
     ];
 
     /**

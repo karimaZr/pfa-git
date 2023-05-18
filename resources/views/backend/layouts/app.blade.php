@@ -42,7 +42,10 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('backend2/css/bootstrap.min.css') }}" rel="stylesheet">
-
+     {{-- calander stylshit --}}
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' rel='stylesheet' />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    
     <!-- Template Stylesheet -->
     <link href="{{ asset('backend2/css/style.css') }}" rel="stylesheet">
 </head>
@@ -90,9 +93,8 @@
                             </div>
                             <div class="col-12 col-sm-6 text-center text-sm-end">
                                 <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                                Designed By <a href="https://www.ensaj.ucd.ac.ma/">Ensa El jadida</a>
-                             <img class="rounded-circle  " src="backend/logo.png" alt="" style="width: 50px; height: 50px;">
-                                
+                                 <a href="https://www.ensaj.ucd.ac.ma/">Ensa El jadida</a>
+                                                            
                             </div>
 
                         </div>
@@ -134,6 +136,9 @@
         <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
+
         <!-- Template Javascript -->
         <script src="{{ asset('backend2/js/main.js') }}"></script>
         <script>
@@ -197,6 +202,105 @@
                     });
             });
         </script>
+        <script>
+            $(document).ready(function() {
+             // initialise le calendrier
+             $('#calendar').fullCalendar({
+                 header: {
+                     left: 'prev,next today',
+                     center: 'title',
+                     right: 'month,agendaWeek,agendaDay'
+                 },
+                 editable: true,
+                 selectable: true,
+                 selectHelper: true,
+                 events: getStoredEvents(), // récupérer les événements stockés dans le localStorage
+                 // Fonction appelée lorsqu'un événement est sélectionné
+                 select: function(start, end) {
+                     var title = prompt('Nom de l\'événement:');
+                     var eventData;
+                     if (title) {
+                         eventData = {
+                             title: title,
+                             start: start,
+                             end: end
+                         };
+                         $('#calendar').fullCalendar('renderEvent', eventData, true); // ajouter l'événement au calendrier
+                         $('#event-list').append('<li>' + title + ' - ' + start.format('MMMM Do YYYY, h:mm:ss a') + '</li>'); // ajouter l'événement à la liste
+                         storeEvent(eventData); // stocker l'événement dans le localStorage
+                     }
+                     $('#calendar').fullCalendar('unselect');
+                 }
+             });
+             // Ajouter un listener pour supprimer un événement
+         $('.fc-event').on('click', '.fc-close', function() {
+             var title = $(this).siblings('.fc-title').text();
+             deleteEvent(title);
+             $(this).closest('.fc-event').remove();
+         });
+         // Ajouter un listener pour mettre à jour un événement
+         $('#calendar').on('click', '.fc-event', function() {
+             var title = $(this).find('.fc-title').text();
+             var newTitle = prompt('Nouveau nom de l\'événement:');
+             var newStart = $(this).data('start');
+             var newEnd = $(this).data('end');
+             if (newTitle) {
+                 updateEvent(title, newTitle, newStart, newEnd);
+                 $(this).find('.fc-title').text(newTitle);
+             }
+         });
+         
+         
+             // Fonction pour stocker un événement dans le localStorage
+             function storeEvent(event) {
+                 var storedEvents = JSON.parse(localStorage.getItem('storedEvents')) || [];
+                 storedEvents.push(event);
+                 localStorage.setItem('storedEvents', JSON.stringify(storedEvents));
+             }
+         
+             // Fonction pour récupérer les événements stockés dans le localStorage
+             function getStoredEvents() {
+                 return JSON.parse(localStorage.getItem('storedEvents')) || [];
+             }
+         
+             // Récupérer les événements stockés lors du chargement de la page
+             var storedEvents = getStoredEvents();
+             for (var i = 0; i < storedEvents.length; i++) {
+                 $('#calendar').fullCalendar('renderEvent', storedEvents[i], true);
+                 $('#event-list').append('<li>' + storedEvents[i].title + ' - ' + moment(storedEvents[i].start).format('MMMM Do YYYY, h:mm:ss a') + '</li>');
+             }
+             // Fonction pour supprimer un événement du localStorage
+         function deleteEvent(title) {
+             var storedEvents = getStoredEvents();
+             for (var i = 0; i < storedEvents.length; i++) {
+                 if (storedEvents[i].title === title) {
+                     storedEvents.splice(i, 1);
+                     break;
+                 }
+             }
+             localStorage.setItem('storedEvents', JSON.stringify(storedEvents));
+         }
+         
+         // Fonction pour mettre à jour un événement du localStorage
+         function updateEvent(oldTitle, newTitle, newStart, newEnd) {
+             var storedEvents = getStoredEvents();
+             for (var i = 0; i < storedEvents.length; i++) {
+                 if (storedEvents[i].title === oldTitle) {
+                     storedEvents[i].title = newTitle;
+                     storedEvents[i].start = newStart;
+                     storedEvents[i].end = newEnd;
+                     break;
+                 }
+             }
+             localStorage.setItem('storedEvents', JSON.stringify(storedEvents));
+         }
+         
+         });
+         
+         
+             </script>   
+    
+    
 </body>
 
 </html>

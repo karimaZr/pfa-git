@@ -16,6 +16,7 @@
                                     <th>CNE</th>
                                     <th>Nom/prenom</th>
                                     <th>note</th>
+                                    <th>Session</th>
                         
     
     
@@ -29,6 +30,7 @@
                                         <td>{{ $note->CNE }}</td>
                                         <td>{{ $note->user }}</td>
                                         <td>{{ $note->note }}</td>
+                                        <td>{{ $note->session }}</td>
                                     </tr>
                                 @endforeach
                              

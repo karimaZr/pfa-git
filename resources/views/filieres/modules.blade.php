@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container-fluid pt-4 px-4">
+        
         <h1>Modules de {{ $filiere->Nom }}</h1>
         <table id="example2" class="table">
             <thead>

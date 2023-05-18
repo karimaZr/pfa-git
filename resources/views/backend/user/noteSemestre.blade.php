@@ -72,9 +72,9 @@
                                     @endforeach
 
                                     @php
-                                        $note_moyenne2 = $moduleCountS1->count > 0 ? $total_notes / $moduleCountS1->count : 0;
+                                        $note_moyenne2 = $moduleCountS2->count > 0 ? $total_notes / $moduleCountS2->count : 0;
                                     @endphp
-                                    <td>{{ number_format($note_moyenne2, 2) }}</td>
+                                    <td>{{ number_format($note_moyenne2, 2) }}</td>XA
                                     @if (auth()->user()->filiere == '2AP')
                                         @if ($note_moyenne2 >= 10)
                                             <td> validé</td>

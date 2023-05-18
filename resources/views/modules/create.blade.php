@@ -23,11 +23,17 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="semestre">Semestre :</label>
+                    <select name="semestre" id="semestre" class="form-control" required>
+                        <option value="S1">S1</option>
+                        <option value="S2">S2</option>
+                    </select>
+                </div>
+                
                 <button type="submit" class="btn btn-primary">Ajouter</button>
             </form>
         </div>
     </div>
 </div>
 @endsection
-
-       

@@ -25,15 +25,14 @@ Route::get('/', function () {
 Auth::routes();
 
 // Routes pour les notes
-// Routes pour les notes
-Route::get('/edit-note/{idelement}/{iduser}', [App\Http\Controllers\backend\StudentController::class, 'editNote'])->name('edit');
-Route::post('/update-note/{idelement}/{iduser}', [App\Http\Controllers\backend\StudentController::class, 'updateNote'])->name('update');
+
+Route::post('/update-note/{idelement}', [App\Http\Controllers\backend\StudentController::class, 'updateNote'])->name('update');
 Route::get('/note/{id}', [App\Http\Controllers\backend\StudentController::class, 'Allstudent'])->name('note');
 Route::get('/note_module/{id_S}', [App\Http\Controllers\backend\StudentController::class, 'noteEtud'])->name('note_module');
 Route::get('/note_S', [App\Http\Controllers\backend\StudentController::class, 'noteSemestre'])->name('note_semestre');
 Route::get('/export/{id}', [App\Http\Controllers\backend\StudentController::class, 'export'])->name('export');
-Route::post('/add/{idelement}/{iduser}', [App\Http\Controllers\backend\StudentController::class, 'addNote'])->name('add1');
-Route::get('/modify-note/{idelement}/{iduser}', [App\Http\Controllers\backend\StudentController::class, 'modify'])->name('modify');
+Route::post('/add/{idelement}', [App\Http\Controllers\backend\StudentController::class, 'addNote'])->name('add1');
+
 
 
 
@@ -96,9 +95,11 @@ Route::delete('/element_modules/{element_module}', [ElementModuleController::cla
 //statistique
 Route::get('/dashboard/Admin', [UserController::class, 'getStudentCount']);
 
-///notes
-Route::get('/modules/{module}/notes', [NoteController::class, 'index'])->name('notes.index');
-Route::put('/modules/{module}/notes', [NoteController::class, 'update'])->name('notes.update');
+
+//
+Route::get('/change-password', [App\Http\Controllers\HomeController::class,'edit'])->name('password.change');
+Route::post('/change-password', [App\Http\Controllers\HomeController::class,'update'])->name('password.update');
+
 //profile
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'showuser'])->name('home');
 

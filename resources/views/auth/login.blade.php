@@ -19,24 +19,27 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
+      <a href="#" class="navbar-brand mx-4 mb-3">
+        <h2 class="text-primary"><i class="fa fa-user-edit me-2"></i>Note</h2>
+    </a>
       <div class="nav-item dropdown">
-        <img class="rounded-circle" src="backend/logo.png" alt="" style="width: 50px; height: 50px;">
-        <a href="../../index2.html" class="h1"><b>Ensa</b>El jadida</a>
+        <a href="../../index2.html" class="h1"><b>Note-ENSAJ</b></a>
       </div>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">CONNEXION</p>
+      <p class="login-box-msg">Veuillez vous authentifier</p>
 
       <form method="POST" action="{{ route('login') }}">
         @csrf
         <div class="input-group mb-3">
-          <input type="email" name="email" class="form-control" placeholder="Emai d'utilisateur">
+          <input type="email" name="email" class="form-control" placeholder="E-mail d'utilisateur">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
         </div>
+        
         <div class="input-group mb-3">
           <input type="password" name="password" class="form-control" placeholder="Mot de passe">
           <div class="input-group-append">
@@ -47,19 +50,20 @@
         </div>
         <div class="row">
           <div class="col-8">
+            @if ($errors->has('email') || $errors->has('password'))
+        <span class="text-danger">Email ou Mot de passe est incorrect </span>
+        @endif
             <div class="icheck-primary">
               <input type="checkbox" id="remember">
               <label for="remember">
-                me souvenir
+                Rappelez-moi
               </label>
             </div>
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button  type="submit" class="btn btn-primary btn-block">connexion
-          </button>
+            <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
           </div>
-         
           <!-- /.col -->
         </div>
       </form>      

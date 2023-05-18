@@ -27,9 +27,10 @@
                                 <td>{{ $professeur->email }}</td>
                                 <td>{{ $professeur->specialite }}</td>
                                 <td><img src='/img/{{ $professeur->photo}}' width="96"></td>
-                                <td><a href="{{route('teacher.element-module', $professeur->id)}}" class="btn btn-primary">
-                                    <i class="fa fa-book"></i> Mes éléments de module
-                                </a>
+                                <td><button class="btn btn-primary" onclick="window.location.href='{{route('teacher.element-module', $professeur->id)}}'">
+                                    <i class="fa fa-book"></i> Mes E-Module
+                                </button>
+                                
                                 </td>
 
                                 <td>

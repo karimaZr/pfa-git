@@ -18,10 +18,10 @@
                                             <th>Email</th>
                                             <td>{{ auth()->user()->email }}</td>
                                         </tr>
-                                        @if (auth()->user()->role == 'professeur')
+                                        @if (auth()->user()->role == 'prof')
                                             <tr>
                                                 <th>Spécialitée :</th>
-                                                <td>{{ auth()->user()->spécialité }}</td>
+                                                <td>{{ auth()->user()->specialite }}</td>
                                             </tr>
                                         @elseif(auth()->user()->role == 'Etudiant')
                                             <tr>
@@ -39,13 +39,8 @@
                                         @endif
                                         <tr>
                                             <th>Photo :</th>
-                                            @if (auth()->user()->role == 'Etudiant')
-                                                <td><img src="backend2\img\testimonial-1.jpg"
-                                                        style="width: 50px; height: 50px;"></td>
-                                            @else
-                                                <td><img src="backend2\img\testimonial-2.jpg"
-                                                        style="width: 50px; height: 50px;"></td>
-                                            @endif
+                                            <td><img  src="{{ asset('img/' . auth()->user()->photo) }}" alt=""  style="width: 50px; height: 50px;">
+                                            </td>
 
                                         </tr>
 

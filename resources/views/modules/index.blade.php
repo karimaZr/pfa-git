@@ -3,7 +3,7 @@
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <div class="col-sm-12 col-xl-12">
-                <div class="bg-secondary rounded h-100 p-4">
+                <div class="bg--dark rounded h-100 p-4">
 
                     <h1>Liste des modules</h1>
                     <a href="{{ route('modules.create') }}" class="btn btn-primary mb-3">Ajouter un module</a>
@@ -14,7 +14,7 @@
                                 <th>Nom</th>
                                 <th>Filière</th>
                                 <th>Actions</th>
-                                <th>Composente</th>
+                                <th>Composante</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,8 +53,7 @@
                                                 ouvrir
                                             </a>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <li> <a href="{{ route('modules.show', $module->id) }}"
-                                                        class="btn btn-info">etudiants</a></li>
+                                            
                                                 <li><a href="{{ route('module.elements', $module->id) }}"
                                                         class="btn btn-warning">Element_Module</a></li>
                                             </ul>

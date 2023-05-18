@@ -10,17 +10,11 @@
        
          <div class="nav-item dropdown">
              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                @if(auth()->user()->role=='Etudiant')
-                <img class="rounded-circle" src="backend2\img\testimonial-1.jpg"
-                    style="width: 50px; height: 50px;">
-                @else
-                <img class="rounded-circle" src="backend2\img\testimonial-2.jpg"
-                style="width: 50px; height: 50px;">
-                @endif
+                <img class="rounded-circle" src="{{ asset('img/' . auth()->user()->photo) }}" alt="" style="width: 50px; height: 50px;">
                  <span class="d-none d-lg-inline-flex">{{ auth()->user()->name }}</span>
              </a>
              <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                 <a href="#" class="dropdown-item">Profile</a>
+                 <a href="{{route('home')}}"  class="dropdown-item">Profile</a>
                  <a href="#" class="dropdown-item">Paramétres</a>
                  <a class="dropdown-item" href="{{ route('logout') }}"
                      onclick="event.preventDefault(); document.getElementById('logout-form').submit(); ">
